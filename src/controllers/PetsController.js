@@ -16,4 +16,14 @@ export default class PetsController {
       return res.status(500).json({ error: error.message })
     }
   }
+
+  async listPets (req, res) {
+    
+    try {
+      const pets = await prisma.pets.findMany();
+      return res.status(200).json(pets);
+    } catch(error) {
+      return res.status(500).json({ error: error.message })
+    }
+  }
 }
