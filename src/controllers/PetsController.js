@@ -5,20 +5,22 @@ import { PetStatus } from "../utils/petStatus.js";
 export default class PetsController {
   async savePet(req, res) {
     try {
-      const { nome, especie, idade, descricao } = req.body;
+      const { nome, especie, raca, data_nascimento, descricao } = req.body;
 
       const newPet = await prisma.pets.create({
         data: {
           nome,
           especie,
+          raca,
           descricao,
-          idade,
+          data_nascimento,
           status: PetStatus.AVAILABLE,
         },
       });
+
       return res.status(201).json(newPet);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -26,25 +28,23 @@ export default class PetsController {
     const { id } = req.params;
 
     try {
-       const pet = await prisma.pets.findUnique({
-          where: { id: Number(id) },
-        });
+      const pet = await prisma.pets.findUnique({
+        where: { id: Number(id) },
+      });
       return res.status(200).json(pet);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   }
 
-
   async listPets(req, res) {
     const filters = buildFilters(req.query);
 
     try {
-       const pets = await prisma.pets.findMany({
-        // Se houver algum filtro lista os pets com base no filtro selecionado, 
-        // caso contrário lista todos os pets
-          where: Object.keys(filters).length ? filters : undefined,
-        });
+      const pets = await prisma.pets.findMany({
+        where: Object.keys(filters).length ? filters : undefined,
+      });
+
       return res.status(200).json(pets);
     } catch (error) {
       return res.status(500).json({ error: error.message });
@@ -56,28 +56,39 @@ export default class PetsController {
 
     try {
       await prisma.pets.delete({
-        where: { id: Number(id) }
+        where: { id: Number(id) },
       });
-
       return res.status(200).json({ message: "Pet excluído com sucesso" });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   }
-
-  async updatePet (req, res) {
+  async updatePet(req, res) {
     const { id } = req.params;
-    const { nome, especie, idade, descricao, status } = req.body;
+    const { nome, especie, raca, data_nascimento, descricao, status } =
+      req.body;
+
     try {
-        const pet = await prisma.pets.update({
-            data: {
-                nome, especie, idade: Number(idade), descricao, status
-            },
-            where: { id: Number(id) }
-        })
-        return res.status(200).json(pet);
+      const validStatus =
+        status && Object.values(PetStatus).includes(status)
+          ? status
+          : undefined;
+
+      const updatedPet = await prisma.pets.update({
+        where: { id: Number(id) },
+        data: {
+          nome,
+          especie,
+          raca,
+          ...(data_nascimento && { data_nascimento }),
+          descricao,
+          ...(validStatus && { status: validStatus }),
+        },
+      });
+
+      return res.status(200).json(updatedPet);
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
-}
+  }
 }

@@ -1,6 +1,8 @@
 const PetStatus = {
   AVAILABLE: 'available',
-  ADOPTED: 'adopted'
+  ADOPTED: 'adopted',
+  PENDING: 'pending', 
+  UNAVAILABLE: 'unavailable',
 };
 
 export { PetStatus }
