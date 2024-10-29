@@ -36,4 +36,34 @@ export default class PetsController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  async deletePet(req, res) {
+    const { id } = req.params;
+
+    try {
+      await prisma.pets.delete({
+        where: { id: Number(id) }
+      });
+
+      return res.status(200).json({ message: "Pet excluído com sucesso" });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  async updatePet (req, res) {
+    const { id } = req.params;
+    const { nome, especie, idade, descricao, status } = req.body;
+    try {
+        const pet = await prisma.pets.update({
+            data: {
+                nome, especie, idade: Number(idade), descricao, status
+            },
+            where: { id: Number(id) }
+        })
+        return res.status(200).json(pet);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
 }
