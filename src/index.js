@@ -1,15 +1,11 @@
 import express from "express";
-import { PrismaClient }  from "@prisma/client";
-const prisma = new PrismaClient();
+import { router } from "./routes/index.js";
+
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-
-// Rota de teste
-app.get('/', (req, res) => {
-  res.send('Bem-vindo ao sistema de adoção de pets!');
-});
+app.use(router);
 
 // Servidor configurado
 app.listen(PORT, () => {
