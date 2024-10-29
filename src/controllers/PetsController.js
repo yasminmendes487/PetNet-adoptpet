@@ -1,4 +1,5 @@
 import prisma from '../database/PrismaClient.js';
+import { PetStatus } from '../utils/petStatus.js';
 
 export default class PetsController {
   async savePet (req, res) {
@@ -8,7 +9,7 @@ export default class PetsController {
 
       const newPet = await prisma.pets.create({
         data: {
-          nome, especie, descricao, idade, status
+          nome, especie, descricao, idade, status: PetStatus.ADOPTED
         }
       });
       return res.status(201).json(newPet);
