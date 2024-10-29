@@ -3,9 +3,8 @@ import { PetStatus } from '../utils/petStatus.js';
 
 export default class PetsController {
   async savePet (req, res) {
-    
     try {
-      const { nome, especie, idade, descricao, status } = req.body;
+      const { nome, especie, idade, descricao } = req.body;
 
       const newPet = await prisma.pets.create({
         data: {
@@ -19,7 +18,6 @@ export default class PetsController {
   }
 
   async listPets (req, res) {
-    
     try {
       const pets = await prisma.pets.findMany();
       return res.status(200).json(pets);
