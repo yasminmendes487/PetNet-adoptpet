@@ -22,6 +22,20 @@ export default class PetsController {
     }
   }
 
+  async findPetById(req, res) {
+    const { id } = req.params;
+
+    try {
+       const pet = await prisma.pets.findUnique({
+          where: { id: Number(id) },
+        });
+      return res.status(200).json(pet);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+
   async listPets(req, res) {
     const filters = buildFilters(req.query);
 

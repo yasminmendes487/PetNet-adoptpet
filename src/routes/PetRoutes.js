@@ -6,6 +6,7 @@ const petsController = new PetsController();
 
 petsRoutes.post('/', petsController.savePet);
 petsRoutes.get('/', petsController.listPets);
+petsRoutes.get('/:id', petsController.findPetById);
 petsRoutes.put('/:id', petsController.updatePet);
 petsRoutes.delete('/:id', petsController.deletePet);
 
