@@ -26,11 +26,12 @@ model adotantes {
 }
 
 model pets {
-  id        Int       @id @default(autoincrement())
-  nome      String    @db.VarChar(255)
-  especie   String    @db.VarChar(255)
-  idade     Int
-  descricao String?
-  status    String    @db.VarChar(50)
-  adocoes   adocoes[]
+  id              Int       @id @default(autoincrement())
+  nome            String    @db.VarChar(255)
+  especie         String    @db.VarChar(255)
+  raca            String    @db.VarChar(255)
+  data_nascimento String
+  descricao       String?
+  status          String    @db.VarChar(50)
+  adocoes         adocoes[]
 }

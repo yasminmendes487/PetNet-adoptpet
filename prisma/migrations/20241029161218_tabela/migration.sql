@@ -24,7 +24,8 @@ CREATE TABLE "pets" (
     "id" SERIAL NOT NULL,
     "nome" VARCHAR(255) NOT NULL,
     "especie" VARCHAR(255) NOT NULL,
-    "idade" INTEGER NOT NULL,
+    "raca" VARCHAR(255) NOT NULL,
+    "data_nascimento" TIMESTAMP(3),
     "descricao" TEXT,
     "status" VARCHAR(50) NOT NULL,
 
