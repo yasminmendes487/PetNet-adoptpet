@@ -5,7 +5,7 @@ import { PetStatus } from "../utils/petStatus.js";
 export default class PetsController {
   async savePet(req, res) {
     try {
-      const { nome, especie, raca, data_nascimento, descricao } = req.body;
+      const { nome, especie, raca, data_nascimento, descricao, tamanho, personalidade, sexo } = req.body;
 
       const newPet = await prisma.pets.create({
         data: {
@@ -14,6 +14,9 @@ export default class PetsController {
           raca,
           descricao,
           data_nascimento,
+          tamanho,
+          personalidade,
+          sexo,
           status: PetStatus.AVAILABLE,
         },
       });
@@ -31,7 +34,11 @@ export default class PetsController {
       const pet = await prisma.pets.findUnique({
         where: { id: Number(id) },
       });
-      return res.status(200).json(pet);
+      if (pet) {
+        return res.status(200).json(pet);
+      } else {
+      return res.status(400).json({error: "Pet não encontrado"});
+        }
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
@@ -65,7 +72,7 @@ export default class PetsController {
   }
   async updatePet(req, res) {
     const { id } = req.params;
-    const { nome, especie, raca, data_nascimento, descricao, status } =
+    const { nome, especie, raca, data_nascimento, descricao, status, tamanho, personalidade, sexo } =
       req.body;
 
     try {
@@ -80,6 +87,9 @@ export default class PetsController {
           nome,
           especie,
           raca,
+          tamanho,
+          personalidade,
+          sexo,
           ...(data_nascimento && { data_nascimento }),
           descricao,
           ...(validStatus && { status: validStatus }),

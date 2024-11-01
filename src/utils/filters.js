@@ -18,5 +18,18 @@ export default function buildFilters(query) {
       gte: new Date(query.data_nascimento),
     };
   }
+
+  if (query.tamanho) {
+    filters.tamanho = query.tamanho;
+  }
+
+
+  if (query.personalidade) {
+    filters.personalidade = query.personalidade;
+  }
+
+  if (query.sexo) {
+    filters.sexo = query.sexo;
+  }
   return filters;
 }
