@@ -1,14 +1,13 @@
 import { Router } from "express";
-import AdotantesController from "../controllers/AdotantesController.js";
+import PetsController from "../controllers/PetsController.js";
 
-const adotantesRoutes = Router();
-const adotantesController = new AdotantesController();
+const petsRoutes = Router();
+const petsController = new PetsController();
 
-adotantesRoutes.post('/', adotantesController.saveAdotante);
-adotantesRoutes.get('/', adotantesController.listAdotantes);
-adotantesRoutes.get('/:id', adotantesController.findAdotanteById);
-adotantesRoutes.put('/:id', adotantesController.updateAdotante);
-adotantesRoutes.delete('/:id', adotantesController.deleteAdotante);
+petsRoutes.post('/', petsController.savePet);
+petsRoutes.get('/', petsController.listPets);
+petsRoutes.get('/:id', petsController.findPetById);
+petsRoutes.put('/:id', petsController.updatePet);
+petsRoutes.delete('/:id', petsController.deletePet);
 
-// Exportando como padrão
-export default adotantesRoutes;
+export { petsRoutes }
