@@ -10,5 +10,4 @@ adotantesRoutes.get('/:id', adotantesController.findAdotanteById);
 adotantesRoutes.put('/:id', adotantesController.updateAdotante);
 adotantesRoutes.delete('/:id', adotantesController.deleteAdotante);
 
-// Exportando como padrão
-export default adotantesRoutes;
+export { adotantesRoutes }
