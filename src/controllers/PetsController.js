@@ -6,6 +6,7 @@ export default class PetsController {
   async savePet(req, res) {
     try {
       const { nome, especie, raca, data_nascimento, descricao, tamanho, personalidade, sexo } = req.body;
+      const dataNascimento = new Date(data_nascimento); //NOTE: pra garantir que seja do tipo data
 
       const newPet = await prisma.pets.create({
         data: {
@@ -13,7 +14,7 @@ export default class PetsController {
           especie,
           raca,
           descricao,
-          data_nascimento,
+          data_nascimento: dataNascimento,
           tamanho,
           personalidade,
           sexo,

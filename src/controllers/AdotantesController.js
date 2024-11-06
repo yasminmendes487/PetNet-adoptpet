@@ -1,79 +1,83 @@
-import Adotante from "../models/Adotante.js";
-import moment from 'moment-timezone';
+import prisma from "../database/PrismaClient.js";
 
-class AdotantesController {
+export default class AdotantesController {
   async saveAdotante(req, res) {
-    try {
-      const nowInBrazil = moment().tz("America/Sao_Paulo").toDate();
-      console.log("Agora em São Paulo: ", nowInBrazil);
+    const { nome, email, telefone, endereco } = req.body;
 
-      const adotante = await Adotante.create({
-        ...req.body,
-        createdAt: nowInBrazil,
-        updatedAt: nowInBrazil
+    try {
+      const newAdotante = await prisma.adotantes.create({
+        data: {
+          nome,
+          email,
+          telefone,
+          endereco,
+        },
       });
-      res.status(201).json(adotante);
+
+      return res.status(201).json(newAdotante);
     } catch (error) {
-      res.status(500).json({ message: "Erro ao salvar adotante", error });
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  async findAdotanteById(req, res) {
+    const { id } = req.params;
+
+    try {
+      const adotante = await prisma.adotantes.findUnique({
+        where: { id: Number(id) },
+      });
+
+      if (adotante) {
+        return res.status(200).json(adotante);
+      } else {
+        return res.status(404).json({ error: "Adotante não encontrado" });
+      }
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
     }
   }
 
   async listAdotantes(req, res) {
     try {
-      const adotantes = await Adotante.findAll();
-      res.status(200).json(adotantes);
+      const adotantes = await prisma.adotantes.findMany();
+      return res.status(200).json(adotantes);
     } catch (error) {
-      res.status(500).json({ message: "Erro ao listar adotantes", error });
-    }
-  }
-
-  async findAdotanteById(req, res) {
-    try {
-      const { id } = req.params;
-      const adotante = await Adotante.findByPk(id);
-      if (adotante) {
-        res.status(200).json(adotante);
-      } else {
-        res.status(404).json({ message: "Adotante não encontrado" });
-      }
-    } catch (error) {
-      res.status(500).json({ message: "Erro ao buscar adotante", error });
-    }
-  }
-
-  async updateAdotante(req, res) {
-    try {
-      const { id } = req.params;
-      const [updated] = await Adotante.update(req.body, {
-        where: { id },
-      });
-      if (updated) {
-        const updatedAdotante = await Adotante.findByPk(id);
-        res.status(200).json(updatedAdotante);
-      } else {
-        res.status(404).json({ message: "Adotante não encontrado" });
-      }
-    } catch (error) {
-      res.status(500).json({ message: "Erro ao atualizar adotante", error });
+      return res.status(500).json({ error: error.message });
     }
   }
 
   async deleteAdotante(req, res) {
+    const { id } = req.params;
+
     try {
-      const { id } = req.params;
-      const deleted = await Adotante.destroy({
-        where: { id },
+      await prisma.adotantes.delete({
+        where: { id: Number(id) },
       });
-      if (deleted) {
-        res.status(204).send();
-      } else {
-        res.status(404).json({ message: "Adotante não encontrado" });
-      }
+      return res.status(200).json({ message: "Adotante excluído com sucesso" });
     } catch (error) {
-      res.status(500).json({ message: "Erro ao deletar adotante", error });
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  async updateAdotante(req, res) {
+    const { id } = req.params;
+    const { nome, email, telefone, endereco } = req.body;
+
+    try {
+      const updatedAdotante = await prisma.adotantes.update({
+        where: { id: Number(id) },
+        data: {
+          nome,
+          email,
+          telefone,
+          endereco,
+        },
+      });
+
+      return res.status(200).json(updatedAdotante);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
   }
 }
-
-export default AdotantesController;
-
