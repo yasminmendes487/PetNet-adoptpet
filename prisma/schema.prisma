@@ -30,11 +30,11 @@ model pets {
   nome            String    @db.VarChar(255)
   especie         String    @db.VarChar(255)
   raca            String    @db.VarChar(255)
-  data_nascimento String
+  sexo            String    @db.VarChar(50)
+  tamanho         String    @db.VarChar(50)
+  personalidade   String?   @db.VarChar(255)
+  data_nascimento DateTime?
   descricao       String?
   status          String    @db.VarChar(50)
-  tamanho         String    @db.VarChar(50)
-  personalidade   String    @db.VarChar(50)
-  sexo            String    @db.VarChar(50)
-  adocoes         adocoes[]  // Relacionamento com adoções
+  adocoes         adocoes[]
 }
