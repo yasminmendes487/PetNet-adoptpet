@@ -1,21 +1,16 @@
 import Adotante from "../models/Adotante.js";
-import moment from 'moment-timezone'; // Importar a biblioteca moment-timezone
+import moment from 'moment-timezone';
 
 class AdotantesController {
-  // Método para criar um novo adotante
   async saveAdotante(req, res) {
     try {
-      // Obter a data e hora atual no fuso horário de São Paulo
-      const nowInBrazil = moment().tz("America/Sao_Paulo").toDate(); // Usar toDate() para obter um objeto Date
+      const nowInBrazil = moment().tz("America/Sao_Paulo").toDate();
+      console.log("Agora em São Paulo: ", nowInBrazil);
 
-      // Logar a data e hora obtidas
-      console.log("Agora em São Paulo: ", nowInBrazil); // Adicionando o log para verificar a data e hora
-
-      // Criar o adotante com a data de criação e atualização
       const adotante = await Adotante.create({
-        ...req.body, // espalha os dados do adotante
-        createdAt: nowInBrazil, // Usar o horário ajustado
-        updatedAt: nowInBrazil  // Usar o horário ajustado
+        ...req.body,
+        createdAt: nowInBrazil,
+        updatedAt: nowInBrazil
       });
       res.status(201).json(adotante);
     } catch (error) {
@@ -23,7 +18,6 @@ class AdotantesController {
     }
   }
 
-  // Método para listar todos os adotantes
   async listAdotantes(req, res) {
     try {
       const adotantes = await Adotante.findAll();
@@ -33,7 +27,6 @@ class AdotantesController {
     }
   }
 
-  // Método para encontrar um adotante pelo ID
   async findAdotanteById(req, res) {
     try {
       const { id } = req.params;
@@ -48,7 +41,6 @@ class AdotantesController {
     }
   }
 
-  // Método para atualizar um adotante pelo ID
   async updateAdotante(req, res) {
     try {
       const { id } = req.params;
@@ -66,7 +58,6 @@ class AdotantesController {
     }
   }
 
-  // Método para deletar um adotante pelo ID
   async deleteAdotante(req, res) {
     try {
       const { id } = req.params;
@@ -85,3 +76,4 @@ class AdotantesController {
 }
 
 export default AdotantesController;
+

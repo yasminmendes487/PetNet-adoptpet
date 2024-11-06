@@ -5,9 +5,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres', // Altere para o seu banco de dados, se necessário
+  dialect: 'postgres',
   logging: false,
-  timezone: '-03:00', // Ajuste para o horário de Brasília
+  timezone: '-03:00',
 });
 
-export default sequelize; // Exportação padrão
+export default sequelize;

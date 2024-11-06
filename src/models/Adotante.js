@@ -28,7 +28,7 @@ Adotante.init({
     sequelize,
     modelName: 'Adotante',
     tableName: 'adotantes',
-    timestamps: true, // Habilita o gerenciamento automático dos timestamps
+    timestamps: true,
 });
 
 export default Adotante;
