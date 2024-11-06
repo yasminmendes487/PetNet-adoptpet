@@ -38,3 +38,11 @@ model pets {
   status          String    @db.VarChar(50)
   adocoes         adocoes[]
 }
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  senha     String
+  tipo      String   @default("cliente") // Tipo do usuário (admin ou cliente)
+}
