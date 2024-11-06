@@ -6,4 +6,4 @@
 */
 -- AlterTable
 ALTER TABLE "pets" ALTER COLUMN "data_nascimento" SET NOT NULL,
-ALTER COLUMN "data_nascimento" SET DATA TYPE TEXT;
+ALTER TABLE "pets" ALTER COLUMN "data_nascimento" TYPE TIMESTAMP;
