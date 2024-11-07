@@ -20,7 +20,7 @@ export default class AdocaoController {
       }
 
       const adoption = await adocaoService.createAdoption(pet_id, adotante_id);
-      const petUpdate = await adocaoService.updatePetStatus(pet_id, "adotado");
+      const petUpdate = await adocaoService.updatePetStatus(pet_id, PetStatus.ADOPTED);
 
       return res
         .status(201)
