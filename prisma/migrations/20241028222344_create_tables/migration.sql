@@ -28,7 +28,7 @@ CREATE TABLE "pets" (
     "sexo" VARCHAR(50) NOT NULL,
     "tamanho" VARCHAR(50) NOT NULL,
     "personalidade" VARCHAR(255),
-    "data_nascimento" TIMESTAMP(3),
+    "data_nascimento" TIMESTAMP(3) NOT NULL,
     "descricao" TEXT,
     "status" VARCHAR(50) NOT NULL,
     
