@@ -8,4 +8,10 @@ export default class UsersService {
       }
     });
   }
+
+  async getUserByEmail(email) {
+    return await prisma.Usuario.findUnique({
+      where: { email }
+    })
+  }
 }
