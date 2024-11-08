@@ -1,9 +1,9 @@
 -- CreateTable
 CREATE TABLE "Usuario" (
     "id" SERIAL NOT NULL,
-    "nome" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "senha" TEXT NOT NULL,
+    "nome" VARCHAR(150) NOT NULL,
+    "email" VARCHAR(150) NOT NULL,
+    "senha" VARCHAR(200) NOT NULL,
     "tipo" TEXT NOT NULL DEFAULT 'cliente',
 
     CONSTRAINT "Usuario_pkey" PRIMARY KEY ("id")
