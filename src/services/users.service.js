@@ -1,10 +1,17 @@
 import prisma from "../database/PrismaClient.js";
+import bcrypt from "bcryptjs";
 
 export default class UsersService {
   async createUser(user) {
+    const { nome, email, senha, tipo } = user;
+    const senhaHash = bcrypt.hashSync(senha, 10);
+
     return await prisma.Usuario.create({
       data: {
-        ...user
+        nome,
+        email,
+        senha: senhaHash,
+        tipo
       }
     });
   }
