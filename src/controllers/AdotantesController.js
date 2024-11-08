@@ -1,6 +1,7 @@
 import prisma from "../database/PrismaClient.js";
 
 export default class AdotantesController {
+  //MARK: - Criar
   async saveAdotante(req, res) {
     const { nome, email, telefone, endereco } = req.body;
 
@@ -20,13 +21,18 @@ export default class AdotantesController {
     }
   }
 
+  //MARK: - Pegar
   async findAdotanteById(req, res) {
     const { id } = req.params;
 
     try {
       const adotante = await prisma.adotantes.findUnique({
         where: { id: Number(id) },
-      });
+        include: {
+          //Para retornos futuros
+          adocoes: true,
+        },
+      });      
 
       if (adotante) {
         return res.status(200).json(adotante);
@@ -40,13 +46,19 @@ export default class AdotantesController {
 
   async listAdotantes(req, res) {
     try {
-      const adotantes = await prisma.adotantes.findMany();
+      const adotantes = await prisma.adotantes.findMany({
+        //Para retornos futuros
+        include: {
+          adocoes: true,
+        }
+      });
       return res.status(200).json(adotantes);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   }
 
+  //MARK: - Deletar
   async deleteAdotante(req, res) {
     const { id } = req.params;
 
@@ -60,6 +72,7 @@ export default class AdotantesController {
     }
   }
 
+  //MARK: - Atualizar
   async updateAdotante(req, res) {
     const { id } = req.params;
     const { nome, email, telefone, endereco } = req.body;
