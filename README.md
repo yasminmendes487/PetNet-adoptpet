@@ -37,7 +37,7 @@ A estrutura do projeto foi organizada de maneira a facilitar a escalabilidade e 
   
 ---
 
-# Endpoints da API
+# Endpoints da API 🎯
 
 ## Pets
 ### 1. **Cadastrar Pet**
