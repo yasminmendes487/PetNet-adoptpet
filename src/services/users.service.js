@@ -14,4 +14,11 @@ export default class UsersService {
       where: { email }
     })
   }
+
+  async getUserById(id) {
+    return await prisma.usuario.findUnique({
+      omit: { senha: true }, // omite a senha do usuário
+      where: { id: Number(id) }
+    });
+  }
 }

@@ -7,6 +7,7 @@ const usersController = new UsersController();
 
 usersRoutes.post('/', usersController.createUser);
 usersRoutes.post('/login', validateToken, usersController.login);
+usersRoutes.get('/:id', usersController.findUserById);
 
 
 export { usersRoutes }
