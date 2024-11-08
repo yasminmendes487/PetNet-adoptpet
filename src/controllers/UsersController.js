@@ -8,22 +8,31 @@ import {
 const usersService = new UsersService();
 
 export default class UsersController {
-  async login (req, res) {
-    const { email } = req.body;
+  async login(req, res) {
+    const { email, senha } = req.body;
+  
     try {
-      if (!validateEmailAndPassword(req.body, res)) return;
-
+      if (!validateEmailAndPassword) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+  
       const user = await usersService.getUserByEmail(email);
-      if (!validateFields(user, req, res)) return;
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
 
+      if (!validateFields(user, req, res)) {
+        return res.status(400).json({ message: "Invalid email or password" });
+      }
+  
       const token = generateToken(user);
-
       return res.status(200).json({ token });
+  
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
   };
-
+ 
   async createUser(req, res) {
     try {
       const newUser = await usersService.createUser(req.body);
