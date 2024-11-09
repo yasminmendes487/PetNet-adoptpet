@@ -1,69 +1,55 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-enum UsuarioTipo {
-  admin   // Administrador
-  usuario // Usuário padrão
-}
-
-
 model adocoes {
-  id          Int        @id @default(autoincrement())  
-  pet_id      Int?                                         
-  adotante_id Int?                                         
-  data_adocao DateTime   @db.Date                          
-  
- 
+  id          Int        @id @default(autoincrement())
+  pet_id      Int?
+  adotante_id Int?
+  data_adocao DateTime   @db.Date
   adotantes   adotantes? @relation(fields: [adotante_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  
-  // Relacionamento com o modelo pets
   pets        pets?      @relation(fields: [pet_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-
 model adotantes {
-  id         Int       @id @default(autoincrement())       
-  usuario_id Int       @unique                            
-  nome       String    @db.VarChar(255)                   
-  telefone   String?   @db.VarChar(50)                    
-  endereco   String?   @db.VarChar(255)                   
-  
-  // Relacionamento com o modelo adocoes (1:N)
-  adocoes    adocoes[]                                    
-  
-  // Relacionamento com o modelo Usuario (1:1)
+  id         Int       @id @default(autoincrement())
+  nome       String    @db.VarChar(255)
+  telefone   String?   @db.VarChar(50)
+  endereco   String?   @db.VarChar(255)
+  usuario_id Int       @unique
+  adocoes    adocoes[]
   usuario    Usuario   @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
 }
 
-
 model pets {
-  id              Int       @id @default(autoincrement()) 
-  nome            String    @db.VarChar(255)           
-  especie         String    @db.VarChar(255)             
-  raca            String    @db.VarChar(255)             
-  sexo            String    @db.VarChar(50)              
-  tamanho         String    @db.VarChar(50)              
-  personalidade   String?   @db.VarChar(255)             
-  data_nascimento DateTime?                              
-  descricao       String?                                
-  status          String    @db.VarChar(50)              
-  
-  // Relacionamento com o modelo adocoes (1:N)
-  adocoes         adocoes[]                               
+  id              Int       @id @default(autoincrement())
+  nome            String    @db.VarChar(255)
+  especie         String    @db.VarChar(255)
+  raca            String    @db.VarChar(255)
+  sexo            String    @db.VarChar(50)
+  tamanho         String    @db.VarChar(50)
+  personalidade   String?   @db.VarChar(255)
+  data_nascimento DateTime?
+  descricao       String?
+  status          String    @db.VarChar(50)
+  adocoes         adocoes[]
 }
 
-// Modelo de Usuário
 model Usuario {
-  id        Int          @id @default(autoincrement())    
-  nome      String       @db.VarChar(255)                
-  email     String       @unique @db.VarChar(255)       
-  senha     String       @db.VarChar(255)                
-  tipo      UsuarioTipo  @default(usuario)               // Tipo de usuário (admin ou usuario)
-  
-  // Relacionamento com o modelo adotantes (1:1)
-  adotante  adotantes?                               
+  id       Int         @id @default(autoincrement())
+  nome     String      @db.VarChar(255)
+  email    String      @unique @db.VarChar(255)
+  senha    String      @db.VarChar(255)
+  tipo     UsuarioTipo @default(usuario)
+  adotante adotantes?
+}
+
+enum UsuarioTipo {
+  admin
+  usuario
+}

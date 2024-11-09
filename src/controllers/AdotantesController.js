@@ -1,34 +1,36 @@
-import prisma from "../database/PrismaClient.js"; 
+import prisma from "../database/PrismaClient.js";
 export default class AdotantesController {
 
   async saveAdotante(req, res) {
     const { nome, email, telefone, endereco } = req.body;
 
     try {
-     
+
       const newAdotante = await prisma.adotantes.create({
         data: { nome, email, telefone, endereco },
       });
 
-      return res.status(201).json(newAdotante); 
+      return res.status(201).json(newAdotante);
     } catch (error) {
       return res.status(400).json({ error: "Erro ao criar adotante", message: error.message });
+    }
+  }
 
   async findAdotanteById(req, res) {
     const { id } = req.params;
 
     try {
-     
+
       const adotante = await prisma.adotantes.findUnique({
         where: { id: Number(id) },
         include: {
           //Para retornos futuros
           adocoes: true,
         },
-      });      
+      });
 
       if (adotante) {
-        return res.status(200).json(adotante); 
+        return res.status(200).json(adotante);
       } else {
         return res.status(404).json({ error: "Adotante não encontrado" });
       }
@@ -40,11 +42,6 @@ export default class AdotantesController {
 
   async listAdotantes(req, res) {
     try {
-eat
-      
-      const adotantes = await prisma.adotantes.findMany();
-      return res.status(200).json(adotantes); 
-
       const adotantes = await prisma.adotantes.findMany({
         //Para retornos futuros
         include: {
@@ -66,13 +63,13 @@ eat
       await prisma.adotantes.delete({
         where: { id: Number(id) },
       });
-      return res.status(200).json({ message: "Adotante excluído com sucesso" }); 
+      return res.status(200).json({ message: "Adotante excluído com sucesso" });
     } catch (error) {
       return res.status(500).json({ error: "Erro ao excluir adotante", message: error.message });
     }
   }
 
-  
+
   async updateAdotante(req, res) {
     const { id } = req.params;
     const { nome, email, telefone, endereco } = req.body;
@@ -83,7 +80,7 @@ eat
         data: { nome, email, telefone, endereco },
       });
 
-      return res.status(200).json(updatedAdotante); 
+      return res.status(200).json(updatedAdotante);
     } catch (error) {
       return res.status(400).json({ error: "Erro ao atualizar adotante", message: error.message });
     }
