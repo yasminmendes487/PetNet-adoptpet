@@ -1,5 +1,11 @@
 import bcrypt from "bcryptjs";
 
+const validarEmail = (email) => {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return regex.test(email);
+};
+
+
 const validateEmailAndPassword = (email, senha, req, res) => {
   if (!email || !senha) {
     return res.status(400).json({ message: 'Email e senha são obrigatórios.' });

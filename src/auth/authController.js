@@ -4,6 +4,10 @@ import { registrarUsuario, autenticarUsuario } from "./authService";
 export const registrar = async (req, res) => {
   const { nome, email, senha, tipo } = req.body;
 
+  if (!validarEmail(email)) {
+    return res.status(400).json({ message: "Email inválido." });
+  }
+
   try {
     const novoUsuario = await registrarUsuario(nome, email, senha, tipo);
 
