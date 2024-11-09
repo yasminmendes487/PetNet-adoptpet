@@ -33,4 +33,14 @@ export default class UsersService {
       },
     });
   }
+
+  //MARK: - Puxar todos os usuários
+  async getAllUsers() {
+    try {
+      const users = await prisma.usuario.findMany();
+      return users;
+    } catch (error) {
+      throw new Error("Erro ao consultar usuários: " + error.message);
+    }
+  }
 }
