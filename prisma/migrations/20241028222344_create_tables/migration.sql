@@ -15,6 +15,7 @@ CREATE TABLE "adotantes" (
     "email" VARCHAR(255) NOT NULL,
     "telefone" VARCHAR(50),
     "endereco" TEXT,
+    "adocoes" VARCHAR(255),
 
     CONSTRAINT "adotantes_pkey" PRIMARY KEY ("id")
 );

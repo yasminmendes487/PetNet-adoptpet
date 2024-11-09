@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-}
 
 datasource db {
   provider = "postgresql"
@@ -67,5 +66,4 @@ model Usuario {
   tipo      UsuarioTipo  @default(usuario)               // Tipo de usuário (admin ou usuario)
   
   // Relacionamento com o modelo adotantes (1:1)
-  adotante  adotantes?                                   
-}
+  adotante  adotantes?                               

@@ -1,7 +1,6 @@
 import prisma from "../database/PrismaClient.js"; 
 export default class AdotantesController {
 
- 
   async saveAdotante(req, res) {
     const { nome, email, telefone, endereco } = req.body;
 
@@ -14,9 +13,6 @@ export default class AdotantesController {
       return res.status(201).json(newAdotante); 
     } catch (error) {
       return res.status(400).json({ error: "Erro ao criar adotante", message: error.message });
-    }
-  }
-
 
   async findAdotanteById(req, res) {
     const { id } = req.params;
@@ -25,7 +21,11 @@ export default class AdotantesController {
      
       const adotante = await prisma.adotantes.findUnique({
         where: { id: Number(id) },
-      });
+        include: {
+          //Para retornos futuros
+          adocoes: true,
+        },
+      });      
 
       if (adotante) {
         return res.status(200).json(adotante); 
@@ -40,15 +40,25 @@ export default class AdotantesController {
 
   async listAdotantes(req, res) {
     try {
+eat
       
       const adotantes = await prisma.adotantes.findMany();
       return res.status(200).json(adotantes); 
+
+      const adotantes = await prisma.adotantes.findMany({
+        //Para retornos futuros
+        include: {
+          adocoes: true,
+        }
+      });
+      return res.status(200).json(adotantes);
+
     } catch (error) {
       return res.status(500).json({ error: "Erro ao listar adotantes", message: error.message });
     }
   }
 
- 
+
   async deleteAdotante(req, res) {
     const { id } = req.params;
 
@@ -62,6 +72,7 @@ export default class AdotantesController {
     }
   }
 
+  
   async updateAdotante(req, res) {
     const { id } = req.params;
     const { nome, email, telefone, endereco } = req.body;
