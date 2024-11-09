@@ -37,7 +37,14 @@ export default class UsersService {
   //MARK: - Puxar todos os usuários
   async getAllUsers() {
     try {
-      const users = await prisma.usuario.findMany();
+      const users = await prisma.usuario.findMany({
+        select: {
+          id: true,
+          nome: true,
+          email: true,
+          tipo: true
+        }
+      });
       return users;
     } catch (error) {
       throw new Error("Erro ao consultar usuários: " + error.message);
