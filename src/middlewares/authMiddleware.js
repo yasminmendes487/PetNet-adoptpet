@@ -1,19 +1,36 @@
 import jwt from "jsonwebtoken";
+import { secret } from "../config/jwt.js";
 
-const secret = process.env.JWT_SECRET;
-
-const validateToken = (req, res, next) => {
-  const { authorization: token } = req.headers;
-  if (!token) {
-    return res.status(401).json({ message: 'Token not found' });
+export const verificarAutenticacao = (req, res, next) => {
+ 
+  if (req.path === "/api/users/login") {
+    return next(); 
   }
 
-  jwt.verify(token, secret, (err) => {
-    if (err) {
-      return res.status(401).json({ message: 'Expired or invalid token' });
-    }
-    return next();
-  });
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res
+      .status(403)
+      .json({ message: "Acesso negado. Token não fornecido." });
+  }
+
+  try {
+   
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded.data; 
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Token inválido." });
+  }
 };
 
-export default validateToken;
+// Middleware para verificar se o usuário é um administrador
+export const verificarAdmin = (req, res, next) => {
+  if (!req.user || req.user.tipo !== "ADMIN") {
+    return res
+      .status(403)
+      .json({ message: "Acesso restrito a administradores." });
+  }
+  next();
+};

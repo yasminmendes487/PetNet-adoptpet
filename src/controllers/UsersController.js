@@ -1,3 +1,4 @@
+//src/Controller/UsersController.js
 import generateToken from "../utils/token.js";
 import UsersService from "../services/users.service.js";
 import {
@@ -10,36 +11,43 @@ const usersService = new UsersService();
 export default class UsersController {
   async login(req, res) {
     const { email, senha } = req.body;
-  
+
     try {
-      if (!validateEmailAndPassword) {
-        return res.status(400).json({ message: "Email and password are required" });
-      }
-  
-      const user = await usersService.getUserByEmail(email);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
+      if (!validateEmailAndPassword(email, senha, req, res)) {
+        return 
+          
       }
 
-      if (!validateFields(user, req, res)) {
-        return res.status(400).json({ message: "Invalid email or password" });
+      const user = await usersService.getUserByEmail(email);
+      if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado" });
       }
-  
+
+      if (!validateFields(user, senha)) {
+        return res.status(400).json({ message: "Email ou senha inválidos" });
+      }
+
       const token = generateToken(user);
+
       return res.status(200).json({ token });
-  
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res
+        .status(500)
+        .json({ message: "Erro no processo de login", error: error.message });
     }
-  };
- 
+  }
+
   async createUser(req, res) {
     try {
       const newUser = await usersService.createUser(req.body);
+
       const token = generateToken(newUser.id);
+
       return res.status(201).json({ token });
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res
+        .status(500)
+        .json({ message: "Erro na criação do usuário", error: error.message });
     }
   }
 
@@ -47,15 +55,19 @@ export default class UsersController {
     const { id } = req.params;
 
     try {
-      const usuario = await usersService.getUserById(id);
+      const usuario = await usersService.getUserById(id, {
+        senha: false,
+      });
+
       if (usuario) {
         return res.status(200).json(usuario);
       } else {
-      return res.status(400).json({error: "Usuario não encontrado"});
-        }
+        return res.status(404).json({ error: "Usuário não encontrado" });
+      }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res
+        .status(500)
+        .json({ error: "Erro ao buscar usuário", message: error.message });
     }
   }
-
 }

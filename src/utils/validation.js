@@ -1,38 +1,33 @@
-import { response } from "express";
 import bcrypt from "bcryptjs";
 
-const validateEmailAndPassword = (req, res) => {
-  const { email, senha } = req;
- 
+// Função de validação de email e senha
+const validateEmailAndPassword = (email, senha, req, res) => {
   if (!email || !senha) {
-    res
-    .status(400)
-    .json({ message: 'Some required fields are missing' });
-    return false;
+    return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
+  }
+  return true;
+};
+
+// Função de validação de campos de usuário (email e senha)
+const validateFields = (user, req, res) => {
+  if (!user) {
+    return res.status(404).json({ message: "Usuário não encontrado." });
+  }
+
+  const { email, senha } = req.body;
+
+
+  if (user.email !== email) {
+    return res.status(400).json({ message: "Email ou senha inválidos." });
+  }
+
+ 
+  const senhaValida = bcrypt.compareSync(senha, user.senha);
+  if (!senhaValida) {
+    return res.status(400).json({ message: "Email ou senha inválidos." });
   }
 
   return true;
 };
 
-const validateFields = (user, req, res) => {
-  console.log("entro");
-  const { email, senha } = req.body;
-  const senhaValida = bcrypt.compareSync(senha, user.senha);
-
-  if (!user) {
-    return false;
-  }
-
-  if (user.email !== email) {
-    return false;
-  }
-
-  if (!senhaValida ) {
-    return false;
-  }
-  
-    return true;
-};
-
-
-export { validateEmailAndPassword, validateFields }
+export { validateEmailAndPassword, validateFields };

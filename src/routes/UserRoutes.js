@@ -1,13 +1,15 @@
+//src/routes/UserRoutes.js
+
 import { Router } from "express";
 import UsersController from "../controllers/UsersController.js";
-import validateToken from "../middlewares/authMiddleware.js";
+import { verificarAutenticacao, verificarAdmin } from "../middlewares/authMiddleware.js";
 
 const usersRoutes = Router();
 const usersController = new UsersController();
 
-usersRoutes.post('/', usersController.createUser);
-usersRoutes.post('/login', validateToken, usersController.login);
-usersRoutes.get('/:id', usersController.findUserById);
 
+usersRoutes.post('/login', usersController.login);
+usersRoutes.post('/register', usersController.createUser);
+usersRoutes.get('/:id', verificarAutenticacao, usersController.findUserById);  
 
-export { usersRoutes }
+export { usersRoutes };
