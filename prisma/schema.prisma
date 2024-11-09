@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["omitApi"]
 }
 
@@ -41,9 +41,9 @@ model pets {
 }
 
 model Usuario {
-  id        Int      @id @default(autoincrement())
-  nome      String
-  email     String   @unique
-  senha     String
-  tipo      String   @default("cliente") // Tipo do usuário (admin ou cliente)
+  id            Int         @id @default(autoincrement())
+  nome          String      @db.VarChar(150)
+  email         String      @unique @db.VarChar(150)
+  senha         String      @db.VarChar(200)
+  tipo          String      @default("cliente")
 }
