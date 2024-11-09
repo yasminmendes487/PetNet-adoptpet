@@ -1,13 +1,15 @@
+//src/routes/PetRoutes.js
 import { Router } from "express";
-import PetsController from "../controllers/PetsController.js";
+import PetsController from "../controllers/PetsController.js"; 
 
-const petsRoutes = Router();
+const router = Router();
 const petsController = new PetsController();
 
-petsRoutes.post('/', petsController.savePet);
-petsRoutes.get('/', petsController.listPets);
-petsRoutes.get('/:id', petsController.findPetById);
-petsRoutes.put('/:id', petsController.updatePet);
-petsRoutes.delete('/:id', petsController.deletePet);
 
-export { petsRoutes }
+router.post('/', petsController.savePet);  
+router.get('/', petsController.listPets);  
+router.get('/:id', petsController.findPetById);  
+router.put('/:id', petsController.updatePet);  
+router.delete('/:id', petsController.deletePet);  
+
+export default router; 

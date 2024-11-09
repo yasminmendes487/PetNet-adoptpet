@@ -11,21 +11,26 @@ export default class UsersService {
         nome,
         email,
         senha: senhaHash,
-        tipo
-      }
+        tipo,
+      },
     });
   }
 
   async getUserByEmail(email) {
     return await prisma.Usuario.findUnique({
-      where: { email }
-    })
+      where: { email },
+    });
   }
 
   async getUserById(id) {
     return await prisma.usuario.findUnique({
-      omit: { senha: true }, // omite a senha do usuário
-      where: { id: Number(id) }
+      where: { id: Number(id) },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        tipo: true,
+      },
     });
   }
 }
