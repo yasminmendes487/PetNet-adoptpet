@@ -12,6 +12,10 @@ export default class UsersController {
   async login(req, res) {
     const { email, senha } = req.body;
 
+    if (!validarEmail(email)) {
+      return res.status(400).json({ message: "Email inválido." });
+    }
+
     try {
       if (!validateEmailAndPassword(email, senha, req, res)) {
         return 
