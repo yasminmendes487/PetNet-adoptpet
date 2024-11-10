@@ -70,4 +70,20 @@ export default class UsersController {
         .json({ error: "Erro ao buscar usuário", message: error.message });
     }
   }
+
+
+  // MARK: - Todos os usuários
+  async getAllUsers(req, res) {
+    try {
+      const usuarios = await usersService.getAllUsers();
+
+      if (usuarios && usuarios.length > 0) {
+        return res.status(200).json(usuarios);
+      } else {
+        return res.status(404).json({ message: "Nenhum usuário encontrado" });
+      }
+    } catch (error) {
+      return res.status(500).json({ message: "Erro ao buscar usuários", error: error.message });
+    }
+  }
 }
