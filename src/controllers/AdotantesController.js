@@ -1,15 +1,14 @@
 import prisma from "../database/PrismaClient.js";
+import bcrypt from "bcryptjs";
+import AdotantesService from "../services/adotantes.service.js";
+
+const adotantesService = new AdotantesService();
+
 export default class AdotantesController {
 
   async saveAdotante(req, res) {
-    const { nome, email, telefone, endereco } = req.body;
-
     try {
-
-      const newAdotante = await prisma.adotantes.create({
-        data: { nome, email, telefone, endereco },
-      });
-
+      const newAdotante = await adotantesService.saveAdotante(req.body);
       return res.status(201).json(newAdotante);
     } catch (error) {
       return res.status(400).json({ error: "Erro ao criar adotante", message: error.message });
@@ -72,17 +71,13 @@ export default class AdotantesController {
 
   async updateAdotante(req, res) {
     const { id } = req.params;
-    const { nome, email, telefone, endereco } = req.body;
-
+  
     try {
-      const updatedAdotante = await prisma.adotantes.update({
-        where: { id: Number(id) },
-        data: { nome, email, telefone, endereco },
-      });
-
+      const updatedAdotante = await adotantesService.updateAdotante(id, req.body);
       return res.status(200).json(updatedAdotante);
     } catch (error) {
       return res.status(400).json({ error: "Erro ao atualizar adotante", message: error.message });
     }
   }
+  
 }
