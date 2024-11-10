@@ -53,9 +53,10 @@ Siga os passos abaixo para configurar e executar o projeto.
 
 1. Crie um banco de dados no PostgreSQL, caso ainda não tenha um.
 
-2. No diretório raiz do projeto, crie um arquivo `.env` com a seguinte variável de ambiente, configurando a string de conexão do seu banco de dados:
+2. No diretório raiz do projeto, crie um arquivo `.env` com a seguinte variável de ambiente, configurando a string de conexão do seu banco de dados e a chave secreta do JWT:
     ```plaintext
     DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/YOUR_DATABASE"
+    JWT_SECRET="TOKENSECRET"
     ```
 
 ## Configuração do Prisma
