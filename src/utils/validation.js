@@ -1,5 +1,11 @@
 import bcrypt from "bcryptjs";
 
+const validateEmail = (email) => {
+  const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
+  return regex.test(email);
+};
+
+
 const validateEmailAndPassword = (email, senha, req, res) => {
   if (!email || !senha) {
     return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
@@ -26,4 +32,4 @@ const validateFields = async (user, senha) => {
   return { valid: true };
 };
 
-export { validateEmailAndPassword, validateFields };
+export { validateEmail, validateEmailAndPassword, validateFields };

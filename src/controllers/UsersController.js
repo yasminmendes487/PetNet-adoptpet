@@ -12,6 +12,10 @@ export default class UsersController {
   async login(req, res) {
     const { email, senha } = req.body;
 
+    if (!validateEmail(email)) {
+      return res.status(400).json({ message: "Email inválido." });
+    }
+
     try {
       if (!validateEmailAndPassword(email, senha, req, res)) {
         return 
@@ -68,6 +72,22 @@ export default class UsersController {
       return res
         .status(500)
         .json({ error: "Erro ao buscar usuário", message: error.message });
+    }
+  }
+
+
+  // MARK: - Todos os usuários
+  async getAllUsers(req, res) {
+    try {
+      const usuarios = await usersService.getAllUsers();
+
+      if (usuarios && usuarios.length > 0) {
+        return res.status(200).json(usuarios);
+      } else {
+        return res.status(404).json({ message: "Nenhum usuário encontrado" });
+      }
+    } catch (error) {
+      return res.status(500).json({ message: "Erro ao buscar usuários", error: error.message });
     }
   }
 }
