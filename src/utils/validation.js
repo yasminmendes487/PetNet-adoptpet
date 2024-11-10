@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 
-const validarEmail = (email) => {
-  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const validateEmail = (email) => {
+  const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
   return regex.test(email);
 };
 
@@ -32,4 +32,4 @@ const validateFields = async (user, senha) => {
   return { valid: true };
 };
 
-export { validateEmailAndPassword, validateFields };
+export { validateEmail, validateEmailAndPassword, validateFields };
