@@ -18,6 +18,8 @@ Este projeto foi desenvolvido utilizando uma combinação de tecnologias que gar
 - **Express**: Framework para Node.js que facilita a criação de APIs RESTful, tornando o gerenciamento de rotas e requisições mais simples e eficiente.
 - **Prisma**: ORM que possibilita uma interação com o banco de dados de forma mais intuitiva e segura.
 - **PostgreSQL**: Banco de dados relacional utilizado para armazenar dados de maneira estruturada e confiável, garantindo consistência nas informações dos pets e adotantes.
+- **JWT (JSON Web Token):** Utilizado para autenticação segura de usuários, permitindo a troca de informações de forma compacta e segura entre as partes.
+- **bcrypt:** Biblioteca para criptografia de senhas, garantindo que as credenciais dos usuários sejam armazenadas de maneira segura no banco de dados.
 
 ---
 # Estrutura do Projeto 📐
@@ -26,12 +28,14 @@ Este projeto foi desenvolvido utilizando uma combinação de tecnologias que gar
 A estrutura do projeto foi organizada de maneira a facilitar a escalabilidade e a manutenção do código. Cada diretório possui uma responsabilidade específica, permitindo que os componentes da aplicação sejam facilmente localizados e modificados conforme necessário. A divisão modular do código ajuda a manter a aplicação limpa e bem organizada.
 
 
-![image](https://github.com/user-attachments/assets/838531e5-91cc-4309-acab-ae5b8d9ef645)
+![image](https://github.com/user-attachments/assets/d0f62327-399a-4b67-ad66-64864053fdb9)
 
 - **Controllers**: Contém a lógica dos endpoints da API, processando as requisições e retornando as respostas.
 - **Database**: Configura a conexão com o banco de dados usando o Prisma.
 - **Routes**: Define as rotas da API e as associa aos métodos dos controladores.
+- **Middleware**: Funcionalidades de requisição, onde configura a autenticação e autorização. 
 - **Teste**: Inclui arquivos para testar a conexão com o banco e outras funcionalidades auxiliares.
+- **Services**: A lógica de negócios da aplicação, diminuindo a complexidade dos controllers, centralizando códigos, permitindo mais facilidade de manter e reutilização.
 - **Utils**: Funções auxiliares utilizadas em várias partes do projeto, como manipulação de dados.
 - **Index.js**: Arquivo principal que inicializa a aplicação e configura o servidor.
   
@@ -90,3 +94,24 @@ A estrutura do projeto foi organizada de maneira a facilitar a escalabilidade e 
 - **Método**: `DELETE`  
 - **URL**: `/api/adotantes/{id}`  
 - **Descrição**: Deleta um adotante do banco de dados.
+
+## Usuários
+### 1. Registrar um usuário
+- **Método**: `POST`
+- **URL**: `/api/users/register`
+- **Descrição**: Cria um usuário com um tipo (default: cliente) no banco de dados, gerando um token.
+
+### 2. **Login**
+- **Método**: `POST`
+- **URL**: `/api/users/login`
+- **Descrição**: Autentica um usuário existente no banco de dados, gerando um token de login, com expiração de 7d.
+
+### 2. **Obter todos os usuários**
+- **Método**: `GET`
+- **URL**: `/api/users`
+- **Descrição**: Retorna todos os usuários cadastrados.
+
+### 2. **Obter um usuário pelo ID**
+- **Método**: `GET`
+- **URL**: `api/users/{id}`
+- **Descrição**: Retorna as informações de um usuário existente.
