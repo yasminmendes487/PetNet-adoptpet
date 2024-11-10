@@ -23,7 +23,6 @@ export default function buildFilters(query) {
     filters.tamanho = query.tamanho;
   }
 
-
   if (query.personalidade) {
     filters.personalidade = query.personalidade;
   }
